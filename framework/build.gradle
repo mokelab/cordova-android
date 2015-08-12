@@ -42,7 +42,8 @@ buildscript {
     }
 }
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 ext {
     apply from: 'cordova.gradle'
@@ -53,7 +54,7 @@ ext {
 android {
     compileSdkVersion cdvCompileSdkVersion
     buildToolsVersion cdvBuildToolsVersion
-    publishNonDefault true
+    //publishNonDefault true
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
@@ -70,5 +71,14 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository url: "file://$System.env.HOME/.m2/repository"
+        pom.version = '1.0.0'
+        pom.groupId = 'org.apache'
+        pom.artifactId = 'cordova-android'
     }
 }
